@@ -1,0 +1,12 @@
+<view class="container">
+  <view class="avatar-container">
+    <image class="{{hasUserInfo ? 'avatar' : 'default-avatar'}}" 
+           src="{{hasUserInfo ? userInfo.avatarUrl : '/images/default-avatar.png'}}" />
+  </view>
+  <button wx:if="{{canIUseGetUserProfile}}" 
+          bindtap="getUserProfile" 
+          class="login-btn"
+          type="primary">
+    获取头像昵称
+  </button>
+</view> 

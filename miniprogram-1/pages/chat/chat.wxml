@@ -1,0 +1,62 @@
+<view class="chat-container">
+  <scroll-view 
+    scroll-y 
+    class="message-list" 
+    scroll-top="{{scrollTop}}"
+    id="message-container"
+  >
+    <block wx:for="{{messages}}" wx:key="timestamp">
+      <view class="message {{item.type === 'user' ? 'message-user' : 'message-ai'}}">
+        <image 
+          class="avatar" 
+          src="{{item.userInfo.avatarUrl}}"
+        />
+        <view class="message-content">
+          <view class="name">{{item.userInfo.nickName}}</view>
+          <view class="content">{{item.content}}</view>
+          <view class="time">{{tools.formatTime(item.timestamp)}}</view>
+        </view>
+      </view>
+    </block>
+    <block wx:if="{{loading}}">
+      <view class="message message-ai">
+        <image class="avatar" src="{{aiInfo.avatarUrl}}" />
+        <view class="message-content loading-content">
+          <view class="name">{{aiInfo.nickName}}</view>
+          <view class="content loading-text">
+            <view class="loading-dots">
+              <text class="loading-dot">.</text>
+              <text class="loading-dot dot-2">.</text>
+              <text class="loading-dot dot-3">.</text>
+            </view>
+            正在获取回复，请稍候
+          </view>
+        </view>
+      </view>
+    </block>
+  </scroll-view>
+
+  <view class="input-container">
+    <textarea 
+      class="input" 
+      value="{{inputValue}}"
+      maxlength="{{maxLength}}"
+      placeholder="请输入您的问题..."
+      bindinput="handleInput"
+      auto-height
+      cursor-spacing="20"
+    />
+    <view class="send-btn" bindtap="handleSend">发送</view>
+  </view>
+</view>
+
+<wxs module="tools">
+module.exports = {
+  formatTime: function(timestamp) {
+    var date = getDate(timestamp);
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    return hours + ':' + (minutes < 10 ? '0' + minutes : minutes);
+  }
+}
+</wxs> 
